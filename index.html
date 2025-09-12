@@ -377,6 +377,14 @@
                         <li>資金可用於購買魚貨</li>
                     </ul>
                     
+                    <h4>⚠️ 重要：資金池只減不增</h4>
+                    <ul>
+                        <li><strong style="color: #e74c3c;">賣出魚貨的收入不會加回資金池</strong></li>
+                        <li>資金池只會因為買入成本、滯銷費、利息而減少</li>
+                        <li>這是為了模擬真實商業中的現金流管理</li>
+                        <li>必須謹慎管理每一筆支出</li>
+                    </ul>
+                    
                     <h4>自動借貸機制</h4>
                     <ul>
                         <li>當購買金額超過現有資金時，系統自動提供貸款</li>
@@ -405,7 +413,14 @@
                     <ul>
                         <li><strong>買入：</strong>價格由高到低分配，直到供應量用完</li>
                         <li><strong>賣出：</strong>價格由低到高成交，直到餐廳預算用完</li>
-                        <li><strong>固定滯銷：</strong>最高價標單的2.5%直接判定滯銷</li>
+                    </ul>
+                    
+                    <h4>🔴 滯銷機制（重要更新）</h4>
+                    <ul>
+                        <li><strong>固定滯銷比例：</strong>全部成交量的 2.5% 最貴的部分會滯銷</li>
+                        <li><strong>計算方式：</strong>不是針對單一標單，而是所有標單中最貴的 2.5% 總量</li>
+                        <li><strong>同價格處理：</strong>如果多個標單價格相同，晚投標的先滯銷（鼓勵早投標）</li>
+                        <li><strong>滯銷費用：</strong>每公斤收取 $10 處理費</li>
                     </ul>
                 </div>
                 
@@ -484,9 +499,10 @@
                     <div class="strategy-tip">
                         <h4>⚠️ 滯銷風險控制</h4>
                         <ul>
-                            <li><strong>避免最高價滯銷：</strong>不要盲目出最高價，有2.5%會直接滯銷</li>
+                            <li><strong>避免最高價滯銷：</strong>全市場最貴的2.5%會滯銷，不要盲目追高價</li>
+                            <li><strong>早投標優勢：</strong>同價格時晚投標者先滯銷，建議儘早提交</li>
                             <li><strong>價格梯度設計：</strong>用兩個價格測試市場接受度</li>
-                            <li><strong>競爭對手分析：</strong>觀察其他團隊的定價傾向</li>
+                            <li><strong>競爭對手分析：</strong>觀察其他團隊的定價傾向，避免成為最高價</li>
                         </ul>
                     </div>
                     
@@ -577,10 +593,14 @@
                     <h3>🔢 賣出階段計算</h3>
                     
                     <div class="formula-box">
-                        <div class="formula-title">固定滞銷計算：</div>
-                        最高價投標 = 找出價格最高的所有投標<br>
-                        滯銷數量 = ceil(最高價投標總量 × 2.5%)<br>
-                        // 晚出價者優先滯銷
+                        <div class="formula-title">固定滞銷計算（新機制）：</div>
+                        1. 計算所有成交的總量<br>
+                        2. 滯銷總量 = ceil(全部成交量 × 2.5%)<br>
+                        3. 從最高價開始分配滯銷量<br>
+                        4. 同價格時，晚投標者優先滯銷<br>
+                        <br>
+                        <strong>範例：</strong>總成交 1000kg，滯銷 25kg<br>
+                        最高價$300有3個標單，將這25kg分配給最高價標單
                     </div>
                     
                     <div class="formula-box">
